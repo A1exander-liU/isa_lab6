@@ -1,5 +1,9 @@
+const languageService = require("../services/language.service");
+
 class LanguageController {
-  allLanguages(){}
+  async allLanguages() {
+    return await languageService.allLanguages();
+  }
 }
 
 const languageController = new LanguageController();
