@@ -1,5 +1,9 @@
+const definitionService = require("../services/definition.service");
+
 class DefinitionController {
-  getDefinition() {}
+  async getDefinition(word) {
+    return await definitionService.getDefinition(word);
+  }
   createDefinition() {}
   updateDefinition() {}
   deleteDefinition() {}

@@ -1,7 +1,10 @@
 const prisma = require("./prisma.service");
 
 class DefinitionService {
-  getDefinition() {}
+  async getDefinition(word) {
+    const result = await prisma.entry.findUnique({where: {word: word}});
+    return result;
+  }
   createDefinition() {}
   updateDefinition() {}
   deleteDefinition() {}
