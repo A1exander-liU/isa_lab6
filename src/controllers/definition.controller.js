@@ -1,7 +1,6 @@
 const express = require("express");
 const definitionService = require("../services/definition.service");
 const { getDefinitionMessage, getDefinitionError, postDefinitionMessage, postDefinitionError, postDefinitionErrorMessage, deleteDefinitionMessage, deleteDefinitionError, deleteDefinitionErrorMessage, getDefinitionErrorMessage, patchDefinitionMessage, patchDefinitionError, patchDefinitionErrorMessage } = require("../utils/strings");
-const { patch } = require("./definition.controller");
 const router = express.Router();
 
 router.get("/v1/definition/:word", async (req, res) => {
