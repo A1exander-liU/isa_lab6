@@ -1,15 +1,42 @@
+const express = require("express");
 const definitionService = require("../services/definition.service");
+const { getDefinitionMessage, getDefinitionError, postDefinitionMessage, postDefinitionError, postDefinitionErrorMessage, deleteDefinitionMessage, deleteDefinitionError, deleteDefinitionErrorMessage, getDefinitionErrorMessage } = require("../utils/strings");
+const router = express.Router();
 
-class DefinitionController {
-  async getDefinition(word) {
-    return await definitionService.getDefinition(word);
+router.get("/v1/definition/:word", async (req, res) => {
+  const entry = await definitionService.getDefinition(req.params.word);
+  if (entry) {
+    res.send({ message: getDefinitionMessage(entry.word), entry });
+  } else {
+    res.status(404).send({ error: getDefinitionError, message: getDefinitionErrorMessage(req.params.word) });
   }
-  async createDefinition(entry) {
-    return await definitionService.createDefinition(entry);
-  }
-  updateDefinition() {}
-  deleteDefinition() {}
-}
+});
 
-const definitionController = new DefinitionController();
-module.exports = definitionController;
+router.post("/v1/definition", async (req, res) => {
+  const newEntry = req.body;
+  const sucess = await definitionService.createDefinition(newEntry);
+  const totalEntries = await definitionService.entryCount();
+  if (sucess) {
+    res.status(201).send({ message: postDefinitionMessage, entry: req.body, total: totalEntries });
+  } else {
+    res.status(409).send({ error: postDefinitionError, message: postDefinitionErrorMessage(newEntry.word), total: totalEntries });
+  }
+});
+
+
+router.patch("/v1/definition", async (req, res) => {
+
+});
+
+router.delete("/v1/definition/:word", async (req, res) => {
+  const word = req.params.word;
+  const deletedEntry = await definitionService.deleteDefinition(word);
+  const totalEntries = await definitionService.entryCount();
+  if (deletedEntry) {
+    res.send({ message: deleteDefinitionMessage(deletedEntry.word), entry: deletedEntry, total: totalEntries });
+  } else {
+    res.status(404).send({ error: deleteDefinitionError, message: deleteDefinitionErrorMessage(word), total: totalEntries });
+  }
+});
+
+module.exports = router;
