@@ -2,7 +2,7 @@ const prisma = require("./prisma.service");
 
 class DefinitionService {
   async getDefinition(word) {
-    const result = await prisma.entry.findUnique({where: {word: word}});
+    const result = await prisma.entry.findUnique({ where: { word } });
     return result;
   }
 
@@ -33,7 +33,7 @@ class DefinitionService {
 
   async deleteDefinition(word) {
     try {
-      const entry = await prisma.entry.delete({where: {word: word}});
+      const entry = await prisma.entry.delete({ where: { word } });
       return entry;
     } catch(_) {
       return null;

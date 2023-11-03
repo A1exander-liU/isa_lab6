@@ -9,7 +9,6 @@ datasource db {
 
 model Entry {
   word                                        String   @id @default("")
-  created_at                                  DateTime @default(now()) @db.Timestamptz(6)
   definition                                  String   @default("")
   wordLanguage                                String   @default("")
   definitionLanguage                          String   @default("")
@@ -18,11 +17,10 @@ model Entry {
 }
 
 model Language {
-  languageName                             String   @id @default("")
-  created_at                               DateTime @default(now()) @db.Timestamptz(6)
-  languageCode                             String   @default("")
-  Entry_Entry_definitionLanguageToLanguage Entry[]  @relation("Entry_definitionLanguageToLanguage")
-  Entry_Entry_wordLanguageToLanguage       Entry[]  @relation("Entry_wordLanguageToLanguage")
+  languageName                             String  @id @default("")
+  languageCode                             String  @default("")
+  Entry_Entry_definitionLanguageToLanguage Entry[] @relation("Entry_definitionLanguageToLanguage")
+  Entry_Entry_wordLanguageToLanguage       Entry[] @relation("Entry_wordLanguageToLanguage")
 }
 
 enum Role {
