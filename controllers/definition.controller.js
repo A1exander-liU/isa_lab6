@@ -4,7 +4,9 @@ class DefinitionController {
   async getDefinition(word) {
     return await definitionService.getDefinition(word);
   }
-  createDefinition() {}
+  async createDefinition(entry) {
+    return await definitionService.createDefinition(entry);
+  }
   updateDefinition() {}
   deleteDefinition() {}
 }

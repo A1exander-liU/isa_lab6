@@ -5,7 +5,21 @@ class DefinitionService {
     const result = await prisma.entry.findUnique({where: {word: word}});
     return result;
   }
-  createDefinition() {}
+  async createDefinition(entry) {
+    try {
+      await prisma.entry.create({
+        data: {
+          word: entry.word, 
+          definition: entry.definition,
+          wordLanguage: entry.wordLanguage,
+          definitionLanguage: entry.definitionLanguage
+        }
+      });
+      return true;
+    } catch(_) {
+      return false;
+    }
+  }
   updateDefinition() {}
   deleteDefinition() {}
 }
