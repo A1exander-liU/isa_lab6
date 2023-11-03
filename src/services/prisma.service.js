@@ -1,11 +1,12 @@
-const { PrismaClient } = require("@prisma/client")
+const { PrismaClient } = require("@prisma/client");
+const { DATABASE_URL } = require("../utils/config");
 
 class PrismaService extends PrismaClient {
   constructor() {
     super({
       datasources: {
         db: {
-          url: process.env.DATABASE_URL
+          url: DATABASE_URL
         }
       }
     })
