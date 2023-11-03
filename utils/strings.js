@@ -1,3 +1,5 @@
+const getLanguagesMessage = "Successfully retrieved languages";
+
 const getDefinitionError = "Word not found";
 function getDefinitionErrorMessage(word) {
   return `The word ${word} does not exist`;
@@ -21,6 +23,7 @@ function deleteDefinitionMessage(word) {
 }
 
 module.exports = {
+  getLanguagesMessage,
   getDefinitionError,
   getDefinitionErrorMessage,
   getDefinitionMessage,
