@@ -1,6 +1,7 @@
 const express = require("express");
 const definitionService = require("../services/definition.service");
-const { getDefinitionMessage, getDefinitionError, postDefinitionMessage, postDefinitionError, postDefinitionErrorMessage, deleteDefinitionMessage, deleteDefinitionError, deleteDefinitionErrorMessage, getDefinitionErrorMessage } = require("../utils/strings");
+const { getDefinitionMessage, getDefinitionError, postDefinitionMessage, postDefinitionError, postDefinitionErrorMessage, deleteDefinitionMessage, deleteDefinitionError, deleteDefinitionErrorMessage, getDefinitionErrorMessage, patchDefinitionMessage, patchDefinitionError, patchDefinitionErrorMessage } = require("../utils/strings");
+const { patch } = require("./definition.controller");
 const router = express.Router();
 
 router.get("/v1/definition/:word", async (req, res) => {
@@ -24,8 +25,16 @@ router.post("/v1/definition", async (req, res) => {
 });
 
 
-router.patch("/v1/definition", async (req, res) => {
-
+router.patch("/v1/definition/:word", async (req, res) => {
+  const word = req.params.word;
+  const definition = req.body.definition;
+  const updatedEntry = await definitionService.updateDefinition(word, definition);
+  const totalEntries = await definitionService.entryCount();
+  if (updatedEntry) {
+    res.send({ message: patchDefinitionMessage, entry: updatedEntry, total: totalEntries });
+  } else {
+    res.status(404).send({ error: patchDefinitionError, message: patchDefinitionErrorMessage(word), total: totalEntries });
+  }
 });
 
 router.delete("/v1/definition/:word", async (req, res) => {

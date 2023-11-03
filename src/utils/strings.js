@@ -1,16 +1,16 @@
 const getLanguagesMessage = "Successfully retrieved languages";
 
-const getDefinitionError = "Word not found";
+const getDefinitionError = "Word does not exist";
 function getDefinitionErrorMessage(word) {
-  return `The word ${word} does not exist`;
+  return `Unable to get word ${word}, it does not exist`;
 }
 function getDefinitionMessage(word) {
-  return `${word} exists`
+  return `Successfully retrieved word ${word}`
 }
 
 const postDefinitionError = "Word conflict";
 function postDefinitionErrorMessage(word) {
-  return `The word ${word} already exists`
+  return `Unable to create new definition, word ${word} it already exists`;
 }
 const postDefinitionMessage = "Entry created successfully";
 
@@ -22,6 +22,12 @@ function deleteDefinitionMessage(word) {
   return `Successfully delete word ${word}`;
 }
 
+const patchDefinitionError = "Word does not exist";
+function patchDefinitionErrorMessage(word) {
+  return `Unable to update word ${word}, it does not exist`;
+}
+const patchDefinitionMessage = "Successfully updated word"
+
 module.exports = {
   getLanguagesMessage,
   getDefinitionError,
@@ -32,5 +38,8 @@ module.exports = {
   postDefinitionMessage,
   deleteDefinitionError,
   deleteDefinitionErrorMessage,
-  deleteDefinitionMessage
+  deleteDefinitionMessage,
+  patchDefinitionError,
+  patchDefinitionErrorMessage,
+  patchDefinitionMessage
 }
