@@ -1,3 +1,4 @@
+const e = require("express");
 const prisma = require("./prisma.service");
 
 class DefinitionService {
@@ -21,7 +22,14 @@ class DefinitionService {
     }
   }
   updateDefinition() {}
-  deleteDefinition() {}
+  async deleteDefinition(word) {
+    try {
+      const entry = await prisma.entry.delete({where: {word: word}});
+      return entry;
+    } catch(_) {
+      return null;
+    }
+  }
   async entryCount() {
     const entries = await prisma.entry.findMany();
     return entries.length;

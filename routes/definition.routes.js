@@ -1,6 +1,6 @@
 const express = require("express");
 const definitionService = require("../services/definition.service");
-const { getDefinitionError, getDefinitionErrorMessage, getDefinitionMessage, postDefinitionError, postDefinitionErrorMessage, postDefinitionMessage } = require("../utils/strings");
+const { getDefinitionError, getDefinitionErrorMessage, getDefinitionMessage, postDefinitionError, postDefinitionErrorMessage, postDefinitionMessage, deleteDefinitionError, deleteDefinitionMessage, deleteDefinitionErrorMessage } = require("../utils/strings");
 const router = express.Router();
 
 router.get("/definition/:word", async (req, res) => {
@@ -24,6 +24,14 @@ router.post("/definition", async (req, res) => {
 
 router.patch("/definition/:word");
 
-router.delete("/definition/:word");
+router.delete("/definition/:word", async (req, res) => {
+  const result = await definitionService.deleteDefinition(req.params.word);
+  const totalEntries = await definitionService.entryCount();
+  if (result) {
+    res.send({message: deleteDefinitionMessage(req.params.word), entry: result, total: totalEntries })
+  } else {
+    res.send({error: deleteDefinitionError, message: deleteDefinitionErrorMessage(req.params.word), total: totalEntries});
+  }
+});
 
 module.exports = router;

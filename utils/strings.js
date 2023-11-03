@@ -12,6 +12,14 @@ function postDefinitionErrorMessage(word) {
 }
 const postDefinitionMessage = "Entry created successfully";
 
+const deleteDefinitionError = "Word not found";
+function deleteDefinitionErrorMessage(word) {
+  return `Unable to delete word ${word}, it does not exist`;
+}
+function deleteDefinitionMessage(word) {
+  return `Successfully delete word ${word}`;
+}
+
 module.exports = {
   getDefinitionError,
   getDefinitionErrorMessage,
@@ -19,4 +27,7 @@ module.exports = {
   postDefinitionError,
   postDefinitionErrorMessage,
   postDefinitionMessage,
+  deleteDefinitionError,
+  deleteDefinitionErrorMessage,
+  deleteDefinitionMessage
 }
