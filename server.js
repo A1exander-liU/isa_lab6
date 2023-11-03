@@ -4,8 +4,8 @@ const express = require("express");
 const cors = require("cors");
 const app = express();
 
-const definitionRoutes = require("./controllers/definition.controller");
-const languageRoutes = require("./controllers/language.controller");
+const definitionRoutes = require("./src/controllers/definition.controller");
+const languageRoutes = require("./src/controllers/language.controller");
 
 app.use(cors());
 app.use(express.json());
