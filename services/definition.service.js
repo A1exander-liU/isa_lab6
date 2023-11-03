@@ -22,6 +22,10 @@ class DefinitionService {
   }
   updateDefinition() {}
   deleteDefinition() {}
+  async entryCount() {
+    const entries = await prisma.entry.findMany();
+    return entries.length;
+  }
 }
 
 const definitionService = new DefinitionService();
