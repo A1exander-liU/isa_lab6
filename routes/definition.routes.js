@@ -1,26 +1,29 @@
 const express = require("express");
-const definitionController = require("../controllers/definition.controller");
+const definitionService = require("../services/definition.service");
 const { getDefinitionError, getDefinitionErrorMessage, getDefinitionMessage, postDefinitionError, postDefinitionErrorMessage, postDefinitionMessage } = require("../utils/strings");
 const router = express.Router();
 
-
 router.get("/definition/:word", async (req, res) => {
-  const word = await definitionController.getDefinition(req.params.word);
+  const word = await definitionService.getDefinition(req.params.word);
   if (!word) {
     res.status(401).send({error: getDefinitionError, message: getDefinitionErrorMessage(req.params.word) })
   } else {
     res.send({message: getDefinitionMessage(word.word), entry: word});
   }
 });
+
 router.post("/definition", async (req, res) => {
-  const result = await definitionController.createDefinition(req.body);
+  const result = await definitionService.createDefinition(req.body);
+  const totalEntries = await definitionService.entryCount(); 
   if (result) {
-    res.send({message: postDefinitionMessage, entry: req.body});
+    res.send({message: postDefinitionMessage, entry: req.body, entries: totalEntries});
   } else {
-    res.status(409).send({error: postDefinitionError, message: postDefinitionErrorMessage(req.body.word), entry: req.body})
+    res.status(409).send({error: postDefinitionError, message: postDefinitionErrorMessage(req.body.word), entry: req.body, entries: totalEntries })
   }
 });
+
 router.patch("/definition/:word");
+
 router.delete("/definition/:word");
 
 module.exports = router;
