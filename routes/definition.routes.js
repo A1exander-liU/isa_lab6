@@ -16,9 +16,9 @@ router.post("/definition", async (req, res) => {
   const result = await definitionService.createDefinition(req.body);
   const totalEntries = await definitionService.entryCount(); 
   if (result) {
-    res.send({message: postDefinitionMessage, entry: req.body, entries: totalEntries});
+    res.send({message: postDefinitionMessage, entry: req.body, total: totalEntries});
   } else {
-    res.status(409).send({error: postDefinitionError, message: postDefinitionErrorMessage(req.body.word), entry: req.body, entries: totalEntries })
+    res.status(409).send({error: postDefinitionError, message: postDefinitionErrorMessage(req.body.word), entry: req.body, total: totalEntries })
   }
 });
 
@@ -30,7 +30,7 @@ router.delete("/definition/:word", async (req, res) => {
   if (result) {
     res.send({message: deleteDefinitionMessage(req.params.word), entry: result, total: totalEntries })
   } else {
-    res.send({error: deleteDefinitionError, message: deleteDefinitionErrorMessage(req.params.word), total: totalEntries});
+    res.status(404).send({error: deleteDefinitionError, message: deleteDefinitionErrorMessage(req.params.word), total: totalEntries});
   }
 });
 
