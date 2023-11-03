@@ -13,13 +13,13 @@ router.get("/v1/definition/:word", async (req, res) => {
 });
 
 router.post("/v1/definition", async (req, res) => {
-  const newEntry = req.body;
-  const sucess = await definitionService.createDefinition(newEntry);
+  const newEntryData = req.body;
+  const newEntry = await definitionService.createDefinition(newEntryData);
   const totalEntries = await definitionService.entryCount();
-  if (sucess) {
-    res.status(201).send({ message: postDefinitionMessage, entry: req.body, total: totalEntries });
+  if (newEntry) {
+    res.status(201).send({ message: postDefinitionMessage, entry: newEntry, total: totalEntries });
   } else {
-    res.status(409).send({ error: postDefinitionError, message: postDefinitionErrorMessage(newEntry.word), total: totalEntries });
+    res.status(409).send({ error: postDefinitionError, message: postDefinitionErrorMessage(newEntryData.word), total: totalEntries });
   }
 });
 
