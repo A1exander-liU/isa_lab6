@@ -26,7 +26,12 @@ const patchDefinitionError = "Word does not exist";
 function patchDefinitionErrorMessage(word) {
   return `Unable to update entry for word ${word}, it does not exist`;
 }
-const patchDefinitionMessage = "Successfully updated entry"
+const patchDefinitionMessage = "Successfully updated entry";
+
+const missingError = "Missing attributes"
+function missingMessage(missing) {
+  return `Attributes missing: {${missing.join(", ")}}`;
+}
 
 module.exports = {
   getLanguagesMessage,
@@ -41,5 +46,7 @@ module.exports = {
   deleteDefinitionMessage,
   patchDefinitionError,
   patchDefinitionErrorMessage,
-  patchDefinitionMessage
+  patchDefinitionMessage,
+  missingError,
+  missingMessage
 }
