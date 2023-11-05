@@ -22,9 +22,9 @@ class DefinitionService {
     }
   }
 
-  async updateDefinition(word, definition) {
+  async updateDefinition(word, definition, definitionLanguage) {
     try {
-      const updatedEntry = await prisma.entry.update({ where: { word }, data: { definition: definition } });
+      const updatedEntry = await prisma.entry.update({ where: { word }, data: { definition, definitionLanguage } });
       return updatedEntry;
     } catch (err) {
       return null;

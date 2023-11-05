@@ -27,12 +27,18 @@ router.post("/v1/definition", async (req, res) => {
 router.patch("/v1/definition/:word", async (req, res) => {
   const word = req.params.word;
   const definition = req.body.definition;
-  const updatedEntry = await definitionService.updateDefinition(word, definition);
+  const definitionLanguage = req.body.definitionLanguage;
+  const updatedEntry = await definitionService.updateDefinition(word, definition, definitionLanguage);
   const totalEntries = await definitionService.entryCount();
   if (updatedEntry) {
     res.send({ message: patchDefinitionMessage, entry: updatedEntry, total: totalEntries });
   } else {
-    res.status(404).send({ error: patchDefinitionError, message: patchDefinitionErrorMessage(word), total: totalEntries });
+    const entry = {
+      word,
+      definition,
+      definitionLanguage
+    }
+    res.status(404).send({ error: patchDefinitionError, message: patchDefinitionErrorMessage(word), entry, total: totalEntries });
   }
 });
 
