@@ -1,15 +1,15 @@
 const express = require("express");
 const definitionService = require("../services/definition.service");
 const { getDefinitionMessage, getDefinitionError, postDefinitionMessage, postDefinitionError, postDefinitionErrorMessage, deleteDefinitionMessage, deleteDefinitionError, deleteDefinitionErrorMessage, getDefinitionErrorMessage, patchDefinitionMessage, patchDefinitionError, patchDefinitionErrorMessage } = require("../utils/strings");
-const { missingValidator, newEntrySchema, updateEntrySchema } = require("../middleware/validator");
+const { missingValidator, newEntrySchema } = require("../middleware/validator");
 const router = express.Router();
 
 router.get("/v1/definition/:word", async (req, res) => {
   const entry = await definitionService.getDefinition(req.params.word);
   if (entry) {
-    res.send({ message: getDefinitionMessage(entry.word), entry });
+    res.send({ statusCode: 200, message: getDefinitionMessage(entry.word), entry });
   } else {
-    res.status(404).send({ error: getDefinitionError, message: getDefinitionErrorMessage(req.params.word) });
+    res.status(404).send({ statusCode: 404, error: getDefinitionError, message: getDefinitionErrorMessage(req.params.word) });
   }
 });
 
@@ -18,9 +18,9 @@ router.post("/v1/definition", missingValidator(newEntrySchema), async (req, res)
   const newEntry = await definitionService.createDefinition(newEntryData);
   const totalEntries = await definitionService.entryCount();
   if (newEntry) {
-    res.status(201).send({ message: postDefinitionMessage, entry: newEntry, total: totalEntries });
+    res.status(201).send({ statusCode: 201, message: postDefinitionMessage, entry: newEntry, total: totalEntries });
   } else {
-    res.status(409).send({ error: postDefinitionError, message: postDefinitionErrorMessage(newEntryData.word), total: totalEntries });
+    res.status(409).send({ statusCode: 409, error: postDefinitionError, message: postDefinitionErrorMessage(newEntryData.word), total: totalEntries });
   }
 });
 
@@ -32,14 +32,14 @@ router.patch("/v1/definition/:word", async (req, res) => {
   const updatedEntry = await definitionService.updateDefinition(word, definition, definitionLanguage);
   const totalEntries = await definitionService.entryCount();
   if (updatedEntry) {
-    res.send({ message: patchDefinitionMessage, entry: updatedEntry, total: totalEntries });
+    res.send({ statusCode: 200, message: patchDefinitionMessage, entry: updatedEntry, total: totalEntries });
   } else {
     const entry = {
       word,
       definition,
       definitionLanguage
     }
-    res.status(404).send({ error: patchDefinitionError, message: patchDefinitionErrorMessage(word), entry, total: totalEntries });
+    res.status(404).send({ statusCode: 404, error: patchDefinitionError, message: patchDefinitionErrorMessage(word), entry, total: totalEntries });
   }
 });
 
@@ -48,9 +48,9 @@ router.delete("/v1/definition/:word", async (req, res) => {
   const deletedEntry = await definitionService.deleteDefinition(word);
   const totalEntries = await definitionService.entryCount();
   if (deletedEntry) {
-    res.send({ message: deleteDefinitionMessage(deletedEntry.word), entry: deletedEntry, total: totalEntries });
+    res.send({ statusCode: 200, message: deleteDefinitionMessage(deletedEntry.word), entry: deletedEntry, total: totalEntries });
   } else {
-    res.status(404).send({ error: deleteDefinitionError, message: deleteDefinitionErrorMessage(word), total: totalEntries });
+    res.status(404).send({ statusCode: 404, error: deleteDefinitionError, message: deleteDefinitionErrorMessage(word), total: totalEntries });
   }
 });
 

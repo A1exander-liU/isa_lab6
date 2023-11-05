@@ -5,7 +5,7 @@ const router = express.Router();
 
 router.get("/v1/languages", async (req, res) => {
   const languages = await languageService.allLanguages();
-  res.send({ message: getLanguagesMessage, languages })
+  res.send({ statusCode: 200, message: getLanguagesMessage, languages })
 });
 
 module.exports = router;

@@ -38,7 +38,7 @@ function missingValidator(schema) {
   return (req, res, next) => {
     const [missing, input] = validateMissing(schema, req);
     if (missing.length > 0) {
-      res.status(400).send({ error: missingError, message: missingMessage(missing), entry: input });
+      res.status(400).send({ statusCode: 400, error: missingError, message: missingMessage(missing), entry: input });
     } else {
       next();
     }
