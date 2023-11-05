@@ -20,7 +20,7 @@ router.post("/v1/definition", missingValidator(newEntrySchema), async (req, res)
   if (newEntry) {
     res.status(201).send({ statusCode: 201, message: postDefinitionMessage, entry: newEntry, total: totalEntries });
   } else {
-    res.status(409).send({ statusCode: 409, error: postDefinitionError, message: postDefinitionErrorMessage(newEntryData.word), total: totalEntries });
+    res.status(409).send({ statusCode: 409, error: postDefinitionError, message: postDefinitionErrorMessage(newEntryData.word), entry: req.body, total: totalEntries });
   }
 });
 
@@ -50,7 +50,7 @@ router.delete("/v1/definition/:word", async (req, res) => {
   if (deletedEntry) {
     res.send({ statusCode: 200, message: deleteDefinitionMessage(deletedEntry.word), entry: deletedEntry, total: totalEntries });
   } else {
-    res.status(404).send({ statusCode: 404, error: deleteDefinitionError, message: deleteDefinitionErrorMessage(word), total: totalEntries });
+    res.status(404).send({ statusCode: 404, error: deleteDefinitionError, message: deleteDefinitionErrorMessage(word), entry: { word }, total: totalEntries });
   }
 });
 
