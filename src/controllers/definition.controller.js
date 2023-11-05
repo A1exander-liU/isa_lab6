@@ -1,6 +1,7 @@
 const express = require("express");
 const definitionService = require("../services/definition.service");
 const { getDefinitionMessage, getDefinitionError, postDefinitionMessage, postDefinitionError, postDefinitionErrorMessage, deleteDefinitionMessage, deleteDefinitionError, deleteDefinitionErrorMessage, getDefinitionErrorMessage, patchDefinitionMessage, patchDefinitionError, patchDefinitionErrorMessage } = require("../utils/strings");
+const { missingValidator, newEntrySchema, updateEntrySchema } = require("../middleware/validator");
 const router = express.Router();
 
 router.get("/v1/definition/:word", async (req, res) => {
@@ -12,7 +13,7 @@ router.get("/v1/definition/:word", async (req, res) => {
   }
 });
 
-router.post("/v1/definition", async (req, res) => {
+router.post("/v1/definition", missingValidator(newEntrySchema), async (req, res) => {
   const newEntryData = req.body;
   const newEntry = await definitionService.createDefinition(newEntryData);
   const totalEntries = await definitionService.entryCount();
