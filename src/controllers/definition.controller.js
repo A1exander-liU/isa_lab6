@@ -9,7 +9,7 @@ router.get("/v1/definition/:word", async (req, res) => {
   if (entry) {
     res.send({ statusCode: 200, message: getDefinitionMessage(entry.word), entry });
   } else {
-    res.status(404).send({ statusCode: 404, error: getDefinitionError, message: getDefinitionErrorMessage(req.params.word) });
+    res.status(404).send({ statusCode: 404, error: getDefinitionError, message: getDefinitionErrorMessage(req.params.word), entry: { word: req.params.word } });
   }
 });
 
